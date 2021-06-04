@@ -1,4 +1,4 @@
-# api-gereciador-ativos-financeiros
+# api-gerenciador-ativos-financeiros
 
 
 VISÃO TÉCNICA - BACK END
