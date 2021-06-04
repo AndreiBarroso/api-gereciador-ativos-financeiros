@@ -25,7 +25,7 @@ public class MovimentacaoDeAtivoService {
             BigDecimal saldo = data.getContaCorrente().getSaldo();
             data.getContaCorrente().setSaldo(saldo.subtract(lancamentoSaida));
             data.getContaCorrente().setLancamentoSaida(lancamentoSaida);
-            data.getAtivoFinanceiro().setQtdAtivo(data.getAtivoFinanceiro().getQtdAtivo() - data.getQtd());
+            data.getAtivoFinanceiro().setQtdAtivo(data.getAtivoFinanceiro().getQtdAtivo() + data.getQtd());
             data.setValorMovimentacao(lancamentoSaida);
         }
         return repository.save(data);
@@ -45,7 +45,7 @@ public class MovimentacaoDeAtivoService {
             BigDecimal saldo = data.getContaCorrente().getSaldo();
             data.getContaCorrente().setSaldo(saldo.add(lancamentoEntrada));
             data.getContaCorrente().setLancamentoEntrada(lancamentoEntrada);
-            data.getAtivoFinanceiro().setQtdAtivo(data.getAtivoFinanceiro().getQtdAtivo() + data.getQtd());
+            data.getAtivoFinanceiro().setQtdAtivo(data.getAtivoFinanceiro().getQtdAtivo() - data.getQtd());
             data.setValorMovimentacao(lancamentoEntrada);
         }
         return repository.save(data);

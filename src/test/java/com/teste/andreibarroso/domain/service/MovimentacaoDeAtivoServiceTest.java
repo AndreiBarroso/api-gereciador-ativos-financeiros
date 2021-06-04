@@ -83,7 +83,7 @@ class MovimentacaoDeAtivoServiceTest {
         AtivoFinanceiro ativoFinanceiro = AtivoFinanceiro.builder()
                 .id(1L)
                 .nome("PETROBRAS")
-                .qtdAtivo(100L)
+                .qtdAtivo(5L)
                 .precoMercado(BigDecimal.valueOf(100.00))
                 .aplicacaoFinanceira(AplicacaoFinanceira.RV)
                 .build();
@@ -93,7 +93,7 @@ class MovimentacaoDeAtivoServiceTest {
                 .id(1L)
                 .contaCorrente(contaCorrente)
                 .ativoFinanceiro(ativoFinanceiro)
-                .qtd(10L)
+                .qtd(5L)
                 .venda(BigDecimal.valueOf(200))
                 .build();
 
