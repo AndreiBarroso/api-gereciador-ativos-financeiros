@@ -18,12 +18,14 @@ public class MovimentacaoDeAtivoService {
 
     @Transactional
     public MovimentacaoAtivo compra(MovimentacaoAtivo data) {
+        verificaQtdAtivos(data);
         verificasaldo(data);
         if (data.getCompra().compareTo(BigDecimal.ZERO) > 0 & data.getAtivoFinanceiro().getQtdAtivo() > 0) {
             BigDecimal lancamentoSaida = data.getContaCorrente().getSaldo();
             BigDecimal subtract = data.getCompra().subtract(lancamentoSaida);
             data.getContaCorrente().setLancamentoSaida(subtract);
             data.getAtivoFinanceiro().setQtdAtivo(data.getAtivoFinanceiro().getQtdAtivo() - data.getQtd());
+            data.setValorMovimentacao(subtract);
         }
         return repository.save(data);
     }
@@ -43,6 +45,7 @@ public class MovimentacaoDeAtivoService {
             BigDecimal soma = data.getVenda().add(lancamentoEntrada);
             data.getContaCorrente().setLancamentoEntrada(soma);
             data.getAtivoFinanceiro().setQtdAtivo(data.getAtivoFinanceiro().getQtdAtivo() + data.getQtd());
+            data.setValorMovimentacao(soma);
         }
         return repository.save(data);
     }
