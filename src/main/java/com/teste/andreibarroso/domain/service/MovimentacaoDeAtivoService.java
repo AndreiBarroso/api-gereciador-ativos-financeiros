@@ -40,19 +40,20 @@ public class MovimentacaoDeAtivoService {
     @Transactional
     public MovimentacaoAtivo venda(MovimentacaoAtivo data) {
         verificaQtdAtivos(data);
-        if (data.getVenda().compareTo(BigDecimal.ZERO) > 0 & data.getQtd() > data.getVenda().longValue()) {
-            BigDecimal lancamentoEntrada = data.getContaCorrente().getSaldo();
-            BigDecimal soma = data.getVenda().add(lancamentoEntrada);
-            data.getContaCorrente().setLancamentoEntrada(soma);
+        if (data.getVenda().compareTo(BigDecimal.ZERO) > 0) {
+            BigDecimal lancamentoEntrada = data.getVenda();
+            BigDecimal saldo = data.getContaCorrente().getSaldo();
+            data.getContaCorrente().setSaldo(saldo.add(lancamentoEntrada));
+            data.getContaCorrente().setLancamentoEntrada(lancamentoEntrada);
             data.getAtivoFinanceiro().setQtdAtivo(data.getAtivoFinanceiro().getQtdAtivo() + data.getQtd());
-            data.setValorMovimentacao(soma);
+            data.setValorMovimentacao(lancamentoEntrada);
         }
         return repository.save(data);
     }
 
 
     public void verificaQtdAtivos(MovimentacaoAtivo data) {
-        if (data.getAtivoFinanceiro().getQtdAtivo() < 0) {
+        if (data.getAtivoFinanceiro().getQtdAtivo() < data.getQtd()) {
             throw new RuntimeException();
         }
 

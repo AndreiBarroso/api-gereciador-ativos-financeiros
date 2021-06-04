@@ -16,7 +16,6 @@ import java.math.BigDecimal;
 import static org.mockito.Mockito.*;
 
 
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class MovimentacaoDeAtivoServiceTest {
@@ -30,6 +29,7 @@ class MovimentacaoDeAtivoServiceTest {
     @Test
     public void testCompra () {
         ContaCorrente contaCorrente = ContaCorrente.builder()
+                .id(1L)
                 .saldo(BigDecimal.valueOf(30))
                 .build();
 
@@ -50,6 +50,7 @@ class MovimentacaoDeAtivoServiceTest {
 
 
         MovimentacaoAtivo movimentacaoAtivo = MovimentacaoAtivo.builder()
+                .id(1L)
                 .contaCorrente(contaCorrente)
                 .ativoFinanceiro(ativoFinanceiro)
                 .qtd(10L)
@@ -58,15 +59,52 @@ class MovimentacaoDeAtivoServiceTest {
 
         service.compra(movimentacaoAtivo);
         verify(repository, times(1)).save(movimentacaoAtivo);
-        System.out.println(pessoa.getContaCorrente().getLancamentoSaida());
-        System.out.println(pessoa.getContaCorrente().getSaldo());
-        System.out.println(ativoFinanceiro.getQtdAtivo());
-        System.out.println(movimentacaoAtivo.getValorMovimentacao());
+        System.out.println(movimentacaoAtivo);
+        System.out.println(contaCorrente);
+        System.out.println(pessoa);
+        System.out.println(ativoFinanceiro);
 
     }
 
     @Test
-    public void testVenda () {
+    public void testVenda (){
+        ContaCorrente contaCorrente = ContaCorrente.builder()
+                .id(1L)
+                .saldo(BigDecimal.valueOf(30))
+                .build();
+
+        Pessoa pessoa = Pessoa.builder()
+                .id(1L)
+                .contaCorrente(contaCorrente)
+                .cpf("324732643264")
+                .nome("ANDREI MESQUITA BARROSO")
+                .build();
+
+        AtivoFinanceiro ativoFinanceiro = AtivoFinanceiro.builder()
+                .id(1L)
+                .nome("PETROBRAS")
+                .qtdAtivo(100L)
+                .precoMercado(BigDecimal.valueOf(100.00))
+                .aplicacaoFinanceira(AplicacaoFinanceira.RV)
+                .build();
+
+
+        MovimentacaoAtivo movimentacaoAtivo = MovimentacaoAtivo.builder()
+                .id(1L)
+                .contaCorrente(contaCorrente)
+                .ativoFinanceiro(ativoFinanceiro)
+                .qtd(10L)
+                .venda(BigDecimal.valueOf(200))
+                .build();
+
+        service.venda(movimentacaoAtivo);
+        verify(repository, times(1)).save(movimentacaoAtivo);
+        System.out.println(movimentacaoAtivo);
+        System.out.println(contaCorrente);
+        System.out.println(pessoa);
+        System.out.println(ativoFinanceiro);
 
     }
+
+
 }
