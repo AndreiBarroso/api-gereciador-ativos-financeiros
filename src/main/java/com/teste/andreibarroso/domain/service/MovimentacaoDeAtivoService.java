@@ -21,20 +21,20 @@ public class MovimentacaoDeAtivoService {
         verificaQtdAtivos(data);
         verificasaldo(data);
         if (data.getCompra().compareTo(BigDecimal.ZERO) > 0 & data.getAtivoFinanceiro().getQtdAtivo() > 0) {
-            BigDecimal lancamentoSaida = data.getContaCorrente().getSaldo();
-            BigDecimal subtract = data.getCompra().subtract(lancamentoSaida);
-            data.getContaCorrente().setLancamentoSaida(subtract);
+            BigDecimal lancamentoSaida = data.getCompra();
+            BigDecimal saldo = data.getContaCorrente().getSaldo();
+            data.getContaCorrente().setSaldo(saldo.subtract(lancamentoSaida));
+            data.getContaCorrente().setLancamentoSaida(lancamentoSaida);
             data.getAtivoFinanceiro().setQtdAtivo(data.getAtivoFinanceiro().getQtdAtivo() - data.getQtd());
-            data.setValorMovimentacao(subtract);
+            data.setValorMovimentacao(lancamentoSaida);
         }
         return repository.save(data);
     }
 
     public void verificasaldo(MovimentacaoAtivo data) {
-        if (data.getContaCorrente().getSaldo().compareTo(BigDecimal.ZERO) < 0) {
+        if (data.getContaCorrente().getSaldo().longValue() < data.getCompra().longValue()) {
             throw new RuntimeException();
         }
-
     }
 
     @Transactional
